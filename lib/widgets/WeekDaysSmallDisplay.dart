@@ -12,9 +12,11 @@ class WeekDaysSmallDisplay extends StatelessWidget {
       alignment: Alignment.center,
       height: 50,
       width: 50,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50), color: Color(0xFFF9CEEE)),
       child: Text(
         disp,
-        style: TextStyle(color: Color(0xFFEEB0B0), fontSize: 20),
+        style: TextStyle(color: Color(0xFF5b0098), fontSize: 20),
       ),
     );
   }

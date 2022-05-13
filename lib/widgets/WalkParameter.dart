@@ -17,18 +17,18 @@ class WalkParameter extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         color: Color(0xFFF9F3EE),
       ),
-      height: 100,
-      width: 150,
+      height: 85,
+      width: 162,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(
             parameterText,
-            style: TextStyle(fontSize: 25),
+            style: TextStyle(fontSize: 25, color: Colors.black87),
           ),
           Text(
             parameterValue.toString(),
-            style: TextStyle(fontSize: 22),
+            style: TextStyle(fontSize: 22, color: Colors.redAccent),
           ),
         ],
       ),

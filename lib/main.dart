@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:titanfit/screens/StepCountPage.dart';
+import 'package:titanfit/screens/NeuCoinsSummaryScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Color(0x505b0098),
+        textTheme: TextTheme(
+          bodyText2: TextStyle(color: Colors.white),
+        ),
       ),
       home: StepCountPage(),
     );

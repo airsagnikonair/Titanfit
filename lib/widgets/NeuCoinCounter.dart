@@ -10,24 +10,24 @@ class NewCoinCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.only(left: 30, right: 30, top: 5),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Color(0xFFF9F3EE),
         ),
-        height: 70,
+        height: 75,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               "1 new-coin",
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 25, color: Colors.black87),
             ),
             Text(
               "500 mts left",
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 25, color: Colors.black87),
             )
           ],
         ),

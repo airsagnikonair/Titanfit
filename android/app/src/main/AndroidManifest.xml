@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.titanfit">
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
    <application
         android:label="titanfit"
         android:name="${applicationName}"

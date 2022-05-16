@@ -5,7 +5,8 @@
 import 'package:flutter/material.dart';
 
 class NewCoinCounter extends StatelessWidget {
-  const NewCoinCounter({Key? key}) : super(key: key);
+  double distanceLeft;
+  NewCoinCounter({required this.distanceLeft});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class NewCoinCounter extends StatelessWidget {
               style: TextStyle(fontSize: 25, color: Colors.black87),
             ),
             Text(
-              "500 mts left",
+              "${distanceLeft * 1000} mts left",
               style: TextStyle(fontSize: 25, color: Colors.black87),
             )
           ],

@@ -59,7 +59,9 @@ class NeuCoinsSummaryScreen extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigation(),
+        bottomNavigationBar: BottomNavigation(
+          currIndex: 1,
+        ),
       ),
     );
   }

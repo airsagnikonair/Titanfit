@@ -44,7 +44,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.titanfit"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 18
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -52,8 +52,17 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            release {
+                manifestPlaceholders = [applicationName: "android.app.Application"]
+            }
+
+            debug {
+                manifestPlaceholders = [applicationName: "android.app.Application"]
+            }
+            build{
+                manifestPlaceholders = [applicationName: "android.app.Application"]
+            }
+
             signingConfig signingConfigs.debug
         }
     }

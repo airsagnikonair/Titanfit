@@ -23,6 +23,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: StepCountPage(),
+      routes: {
+        '/coinSummary': (context) => NeuCoinsSummaryScreen(),
+      },
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class WalkParameter extends StatelessWidget {
   String parameterText = "";
-  int parameterValue = 0;
+  double parameterValue = 0;
 
   WalkParameter({required this.parameterText, required this.parameterValue});
 
@@ -27,7 +27,7 @@ class WalkParameter extends StatelessWidget {
             style: TextStyle(fontSize: 25, color: Colors.black87),
           ),
           Text(
-            parameterValue.toString(),
+            parameterValue.round().toString(),
             style: TextStyle(fontSize: 22, color: Colors.redAccent),
           ),
         ],

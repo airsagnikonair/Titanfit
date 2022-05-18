@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:titanfit/widgets/WeekDays.dart';
 
+import '../CalculationLogic/StepCalorieCalculation.dart';
 import '../widgets/BottomNavigation.dart';
-import '../widgets/WalkParameter.dart';
-import '../widgets/WeekDaysSmallDisplay.dart';
 import '../widgets/NeuCoinCounter.dart';
-import 'package:pedometer/pedometer.dart';
-
-import 'package:flutter/material.dart';
+import '../widgets/WalkParameter.dart';
 
 class StepCountPage extends StatefulWidget {
   const StepCountPage({Key? key}) : super(key: key);
@@ -18,65 +18,21 @@ class StepCountPage extends StatefulWidget {
 }
 
 class _StepCountPageState extends State<StepCountPage> {
-  late Stream<StepCount> _stepCountStream;
-  late Stream<PedestrianStatus> _pedestrianStatusStream;
-  String _status = '?', _steps = '?';
-  double calorie = 0;
-  double distanceCovered = 0;
-  double distanceLeft = 1;
-  bool distanceLeftStatus = false;
+  bool isLoading = false;
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    initPlatformState();
+    isLoading = true;
+    StepCalorieCalculation.initialiseArray();
   }
 
-  void onStepCount(StepCount event) {
-    print(event);
-    setState(() {
-      _steps = event.steps.toString();
-      calorie = (event.steps) * 0.04;
-      distanceCovered = ((event.steps * 78) / 100000);
-      distanceLeft = (distanceLeft - distanceCovered);
-      if (distanceLeft <= 0) {
-        distanceLeftStatus = true;
-      }
-    });
-  }
-
-  void onPedestrianStatusChanged(PedestrianStatus event) {
-    print(event);
-    setState(() {
-      _status = event.status;
-    });
-  }
-
-  void onPedestrianStatusError(error) {
-    print('onPedestrianStatusError: $error');
-    setState(() {
-      _status = 'Pedestrian Status not available';
-    });
-    print(_status);
-  }
-
-  void onStepCountError(error) {
-    print('onStepCountError: $error');
-    setState(() {
-      _steps = 'Step Count not available';
-    });
-  }
-
-  void initPlatformState() {
-    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
-    _pedestrianStatusStream
-        .listen(onPedestrianStatusChanged)
-        .onError(onPedestrianStatusError);
-
-    _stepCountStream = Pedometer.stepCountStream;
-    _stepCountStream.listen(onStepCount).onError(onStepCountError);
-
-    if (!mounted) return;
+  @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<StepCalorieCalculation>(context, listen: false)
+        .initPlatformState();
   }
 
   @override
@@ -136,16 +92,33 @@ class _StepCountPageState extends State<StepCountPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Icon(
-                        _status == "walking"
-                            ? Icons.nordic_walking
-                            : Icons.do_not_step,
-                        size: 150,
+                      Consumer<StepCalorieCalculation>(
+                        builder: (ctx, snapshot, child) {
+                          String _status = snapshot.getStatus();
+                          return Icon(
+                            _status == "walking"
+                                ? Icons.nordic_walking
+                                : Icons.do_not_step,
+                            size: 150,
+                          );
+                        },
                       ),
-                      Text(
-                        _steps,
-                        style: TextStyle(fontSize: 25, color: Colors.black87),
-                      ),
+                      Consumer<StepCalorieCalculation>(
+                        builder: (ctx, snapshot, child) {
+                          String _steps;
+
+                          _steps = snapshot.getSteps();
+                          if (_steps == '-1') {
+                            _steps = "Loading Steps!";
+                          }
+
+                          return Text(
+                            _steps,
+                            style:
+                                TextStyle(fontSize: 25, color: Colors.black87),
+                          );
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -153,15 +126,25 @@ class _StepCountPageState extends State<StepCountPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  WalkParameter(
-                      parameterText: "Calories", parameterValue: calorie),
+                  Consumer<StepCalorieCalculation>(
+                    builder: (ctx, snapshot, child) {
+                      double calorie = snapshot.getCalorie();
+                      return WalkParameter(
+                          parameterText: "Calories", parameterValue: calorie);
+                    },
+                  ),
                   SizedBox(
                     width: 10,
                   ),
                   WalkParameter(parameterText: "Target", parameterValue: 10000)
                 ],
               ),
-              NewCoinCounter(distanceLeft: distanceLeft),
+              Consumer<StepCalorieCalculation>(
+                builder: (ctx, snapshot, child) {
+                  double distanceLeft = 5;
+                  return NewCoinCounter(distanceLeft: distanceLeft);
+                },
+              ),
               WeekDays(),
             ],
           ),

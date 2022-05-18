@@ -1,15 +1,47 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import './CalculationLogic/StepCalorieCalculation.dart';
 import 'package:titanfit/screens/StepCountPage.dart';
 import 'package:titanfit/screens/NeuCoinsSummaryScreen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      await StepCalorieCalculation.save();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +54,14 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(color: Colors.white),
         ),
       ),
-      home: StepCountPage(),
+      home: MultiProvider(
+        providers: [
+          ListenableProvider(
+            create: (ctx) => StepCalorieCalculation(),
+          ),
+        ],
+        child: StepCountPage(),
+      ),
       routes: {
         '/coinSummary': (context) => NeuCoinsSummaryScreen(),
       },

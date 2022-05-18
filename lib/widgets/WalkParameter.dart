@@ -27,7 +27,9 @@ class WalkParameter extends StatelessWidget {
             style: TextStyle(fontSize: 25, color: Colors.black87),
           ),
           Text(
-            parameterValue.round().toString(),
+            parameterValue == -1.0
+                ? "Loading..."
+                : parameterValue.round().toString(),
             style: TextStyle(fontSize: 22, color: Colors.redAccent),
           ),
         ],

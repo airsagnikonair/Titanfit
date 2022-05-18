@@ -24,11 +24,13 @@ class NewCoinCounter extends StatelessWidget {
           children: [
             Text(
               "1 new-coin",
-              style: TextStyle(fontSize: 25, color: Colors.black87),
+              style: TextStyle(fontSize: 20, color: Colors.black87),
             ),
             Text(
-              "${distanceLeft * 1000} mts left",
-              style: TextStyle(fontSize: 25, color: Colors.black87),
+              distanceLeft == -1.0
+                  ? "Loading..."
+                  : "${(distanceLeft * 1000).round()} mts left",
+              style: TextStyle(fontSize: 20, color: Colors.black87),
             )
           ],
         ),

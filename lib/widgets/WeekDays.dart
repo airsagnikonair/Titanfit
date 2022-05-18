@@ -13,13 +13,34 @@ class WeekDays extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          WeekDaysSmallDisplay(disp: "1"),
-          WeekDaysSmallDisplay(disp: "2"),
-          WeekDaysSmallDisplay(disp: "3"),
-          WeekDaysSmallDisplay(disp: "4"),
-          WeekDaysSmallDisplay(disp: "5"),
-          WeekDaysSmallDisplay(disp: "6"),
-          WeekDaysSmallDisplay(disp: "7")
+          WeekDaysSmallDisplay(
+            disp: "M",
+            weekDay: 1,
+          ),
+          WeekDaysSmallDisplay(
+            disp: "Tu",
+            weekDay: 2,
+          ),
+          WeekDaysSmallDisplay(
+            disp: "W",
+            weekDay: 3,
+          ),
+          WeekDaysSmallDisplay(
+            disp: "Th",
+            weekDay: 4,
+          ),
+          WeekDaysSmallDisplay(
+            disp: "F",
+            weekDay: 5,
+          ),
+          WeekDaysSmallDisplay(
+            disp: "S",
+            weekDay: 6,
+          ),
+          WeekDaysSmallDisplay(
+            disp: "Su",
+            weekDay: 7,
+          )
         ],
       ),
     );

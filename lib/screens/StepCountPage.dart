@@ -118,7 +118,11 @@ class _StepCountPageState extends State<StepCountPage> {
                                 TextStyle(fontSize: 25, color: Colors.black87),
                           );
                         },
-                      )
+                      ),
+                      Text(
+                        "Steps",
+                        style: TextStyle(fontSize: 20, color: Colors.black87),
+                      ),
                     ],
                   ),
                 ),
@@ -141,7 +145,7 @@ class _StepCountPageState extends State<StepCountPage> {
               ),
               Consumer<StepCalorieCalculation>(
                 builder: (ctx, snapshot, child) {
-                  double distanceLeft = 5;
+                  double distanceLeft = snapshot.getDistanceForNeuCoin();
                   return NewCoinCounter(distanceLeft: distanceLeft);
                 },
               ),

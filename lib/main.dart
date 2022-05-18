@@ -45,26 +45,35 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Color(0x505b0098),
-        textTheme: TextTheme(
-          bodyText2: TextStyle(color: Colors.white),
-        ),
-      ),
-      home: MultiProvider(
-        providers: [
-          ListenableProvider(
-            create: (ctx) => StepCalorieCalculation(),
+    return MultiProvider(
+      providers: [
+        ListenableProvider(
+          create: (ctx) => StepCalorieCalculation(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: Color(0x505b0098),
+          textTheme: TextTheme(
+            bodyText2: TextStyle(color: Colors.white),
           ),
-        ],
-        child: StepCountPage(),
+        ),
+        home: StepCountPage(),
+        routes: {
+          '/coinSummary': (context) => NeuCoinsSummaryScreen(),
+        },
       ),
-      routes: {
-        '/coinSummary': (context) => NeuCoinsSummaryScreen(),
-      },
     );
   }
 }
+
+// MultiProvider(
+// providers: [
+// ListenableProvider(
+// create: (ctx) => StepCalorieCalculation(),
+// ),
+// ],
+// child: StepCountPage(),
+// ),

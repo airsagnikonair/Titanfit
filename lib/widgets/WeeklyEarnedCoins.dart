@@ -2,11 +2,23 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:titanfit/CalculationLogic/StepCalorieCalculation.dart';
+import 'package:provider/provider.dart';
 
 class WeeklyEarnedCoins extends StatelessWidget {
   String day = '';
-  int coinsEarned = 0;
-  WeeklyEarnedCoins({required this.day, required this.coinsEarned});
+  int weekday = 1;
+  List<String> weekDayaname = [
+    'Suncopy',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun'
+  ];
+  WeeklyEarnedCoins({required this.day, required this.weekday});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +39,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 80),
                     child: Text(
-                      day,
+                      weekDayaname[weekday],
                       style: TextStyle(fontSize: 35, color: Color(0xFF15133C)),
                     ),
                   ),
@@ -38,11 +50,16 @@ class WeeklyEarnedCoins extends StatelessWidget {
                 child: Container(
                   child: Row(
                     children: [
-                      Text(
-                        '$coinsEarned',
-                        style:
-                            TextStyle(fontSize: 35, color: Color(0xFF15133C)),
-                      ),
+                      Consumer<StepCalorieCalculation>(
+                          builder: (ctx, snapshot, child) {
+                        int coinsEarned =
+                            (snapshot.getDistance(weekday) / 1000).truncate();
+                        return Text(
+                          '$coinsEarned',
+                          style:
+                              TextStyle(fontSize: 35, color: Color(0xFF15133C)),
+                        );
+                      }),
                       SizedBox(
                         width: 20,
                       ),

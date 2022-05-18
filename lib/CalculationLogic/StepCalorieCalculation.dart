@@ -13,8 +13,10 @@ class StepCalorieCalculation extends ChangeNotifier {
   String _status = '?', _steps = '?';
   double calorie = 0;
   double distanceCovered = 0;
-  double distanceLeft = 1;
-  bool distanceLeftStatus = false;
+  double distanceLeft = -1;
+  double shortDistanceTarget = -1;
+  bool neuCoinFlag = false;
+
   late int weekDayIndex;
 
   static bool loadingData = false;
@@ -32,8 +34,12 @@ class StepCalorieCalculation extends ChangeNotifier {
         double currSteps = jsonDecode(ele)['currSteps'];
         double calorie = jsonDecode(ele)['calorie'];
         DateTime date = DateTime.parse(jsonDecode(ele)['date']);
+        double neucoin = jsonDecode(ele)['neucoin'];
+        double distance = jsonDecode(ele)['distance'];
         print("retrived data");
         return PedometerCount(
+          neucoin: neucoin,
+          distance: distance,
           calorie: calorie,
           currSteps: currSteps,
           totalSteps: totalSteps,
@@ -51,6 +57,8 @@ class StepCalorieCalculation extends ChangeNotifier {
       for (int i = 0; i < 8; i++) {
         pedoTrackArray.add(
           PedometerCount(
+            distance: 0,
+            neucoin: 0,
             calorie: 0,
             currSteps: -1,
             totalSteps: -1,
@@ -67,15 +75,9 @@ class StepCalorieCalculation extends ChangeNotifier {
     print(event.timeStamp);
 
     _steps = event.steps.toString();
-    calorie = (event.steps) * 0.04;
-
-    distanceCovered = ((event.steps * 78) / 100000);
-    distanceLeft = (distanceLeft - distanceCovered);
-    if (distanceLeft <= 0) {
-      distanceLeftStatus = true;
-    }
-
+    int weekDayIndex = getCurrentWeekDayIndex();
     pedoTrackArrayUpdate();
+    print(pedoTrackArray[weekDayIndex].neucoin);
     notifyListeners();
   }
 
@@ -110,6 +112,13 @@ class StepCalorieCalculation extends ChangeNotifier {
     }
   }
 
+  int getStepsForRoundedBox(int i) {
+    if (loadingData == true) {
+      return 0;
+    }
+    return pedoTrackArray[i].currSteps.round();
+  }
+
   String getSteps() {
     int weekDayIndex = getCurrentWeekDayIndex();
     if (loadingData == true) {
@@ -128,6 +137,42 @@ class StepCalorieCalculation extends ChangeNotifier {
       return -1.0;
     }
     return pedoTrackArray[weekDayIndex].calorie;
+  }
+
+  double getDistance(int i) {
+    if (loadingData == true) {
+      return 0.0;
+    }
+    return pedoTrackArray[i].distance;
+  }
+
+  double getDistanceForNeuCoin() {
+    if (loadingData == true) {
+      return -1.0;
+    }
+    return double.parse(distanceLeft.toStringAsFixed(3));
+  }
+
+  double getNeuCoin() {
+    int weekDayIndex = getCurrentWeekDayIndex();
+    if (loadingData == true) {
+      return 0.0;
+    }
+    return pedoTrackArray[weekDayIndex].neucoin;
+  }
+
+  void updateDistanceLeftForNeuCoin(double distance) {
+    print("Update neucoin function");
+    int weekDayIndex = getCurrentWeekDayIndex();
+    distanceCovered = (distance) / 1000;
+    if (distanceCovered >= shortDistanceTarget && shortDistanceTarget != -1) {
+      print("update neucoin+1");
+      pedoTrackArray[weekDayIndex].neucoin =
+          pedoTrackArray[weekDayIndex].neucoin + 1;
+    }
+    shortDistanceTarget = distanceCovered + 1;
+    int temp = shortDistanceTarget.truncate();
+    distanceLeft = temp - distanceCovered;
   }
 
   int getCurrentWeekDayIndex() {
@@ -174,6 +219,11 @@ class StepCalorieCalculation extends ChangeNotifier {
 
           pedoTrackArray[weekDayIndex].calorie =
               pedoTrackArray[weekDayIndex].currSteps * 0.04;
+
+          pedoTrackArray[weekDayIndex].distance =
+              pedoTrackArray[weekDayIndex].currSteps * 0.7112;
+
+          updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
         } else {
           print("updating data on same day");
           pedoTrackArray[weekDayIndex].currSteps =
@@ -183,6 +233,12 @@ class StepCalorieCalculation extends ChangeNotifier {
 
           pedoTrackArray[weekDayIndex].calorie =
               pedoTrackArray[weekDayIndex].currSteps * 0.04;
+          pedoTrackArray[weekDayIndex].distance =
+              pedoTrackArray[weekDayIndex].currSteps *
+                  0.7112; //distance in meters
+
+          updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
+
           if (weekDayIndex == 7) {
             pedoTrackArray[0] = pedoTrackArray[weekDayIndex];
           }
@@ -197,6 +253,11 @@ class StepCalorieCalculation extends ChangeNotifier {
           pedoTrackArray[weekDayIndex].date = DateTime.now();
           pedoTrackArray[weekDayIndex].calorie =
               pedoTrackArray[weekDayIndex].currSteps * 0.04;
+          pedoTrackArray[weekDayIndex].distance =
+              pedoTrackArray[weekDayIndex].currSteps * 0.7112;
+
+          updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
+
           if (weekDayIndex == 7) {
             pedoTrackArray[0] = pedoTrackArray[weekDayIndex];
           }
@@ -208,6 +269,10 @@ class StepCalorieCalculation extends ChangeNotifier {
           pedoTrackArray[weekDayIndex].date = DateTime.now();
           pedoTrackArray[weekDayIndex].calorie =
               pedoTrackArray[weekDayIndex].currSteps * 0.04;
+          pedoTrackArray[weekDayIndex].distance =
+              pedoTrackArray[weekDayIndex].currSteps * 0.7112;
+
+          updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
 
           if (weekDayIndex == 7) {
             pedoTrackArray[0] = pedoTrackArray[weekDayIndex];
@@ -224,6 +289,10 @@ class StepCalorieCalculation extends ChangeNotifier {
         pedoTrackArray[weekDayIndex].date = DateTime.now();
         pedoTrackArray[weekDayIndex].calorie =
             pedoTrackArray[weekDayIndex].currSteps * 0.04;
+        pedoTrackArray[weekDayIndex].distance =
+            pedoTrackArray[weekDayIndex].currSteps * 0.7112;
+
+        updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
 
         if (weekDayIndex == 7) {
           pedoTrackArray[0] = pedoTrackArray[weekDayIndex];
@@ -238,6 +307,10 @@ class StepCalorieCalculation extends ChangeNotifier {
         pedoTrackArray[weekDayIndex].date = DateTime.now();
         pedoTrackArray[weekDayIndex].calorie =
             pedoTrackArray[weekDayIndex].currSteps * 0.04;
+        pedoTrackArray[weekDayIndex].distance =
+            pedoTrackArray[weekDayIndex].currSteps * 0.7112;
+
+        updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
 
         if (weekDayIndex == 7) {
           pedoTrackArray[0] = pedoTrackArray[weekDayIndex];
@@ -251,6 +324,8 @@ class StepCalorieCalculation extends ChangeNotifier {
         .map(
           (weekdaydata) => jsonEncode(
             {
+              'neucoin': weekdaydata.neucoin,
+              'distance': weekdaydata.distance,
               'calorie': weekdaydata.calorie,
               'totalSteps': weekdaydata.totalSteps,
               'currSteps': weekdaydata.currSteps,

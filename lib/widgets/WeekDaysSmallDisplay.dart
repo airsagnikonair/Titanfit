@@ -23,6 +23,9 @@ class WeekDaysSmallDisplay extends StatelessWidget {
       if (gradientValue > 1) {
         gradientValue = 1;
       }
+      if (weekDay > DateTime.now().weekday) {
+        gradientValue = 0.0;
+      }
 
       return Container(
         alignment: Alignment.center,
@@ -37,6 +40,9 @@ class WeekDaysSmallDisplay extends StatelessWidget {
             tileMode: TileMode.repeated,
           ),
           borderRadius: BorderRadius.circular(50),
+          border: DateTime.now().weekday == weekDay
+              ? Border.all(color: Colors.black87, width: 2.5)
+              : null,
         ),
         child: Text(
           disp,
@@ -46,30 +52,3 @@ class WeekDaysSmallDisplay extends StatelessWidget {
     });
   }
 }
-
-// Stack(
-// alignment: Alignment.center,
-// children: [
-// Consumer<StepCalorieCalculation>(builder: (ctx, snapshot, child) {
-// int val = snapshot.getStepsForRoundedBox(weekDay);
-// if (val == 0 || val == -1) {
-// return Container();
-// }
-//
-// return FractionallySizedBox(
-// widthFactor: 1,
-// heightFactor: val / 10000.0 > 1 ? 1 : (val / 10000.0),
-// alignment: FractionalOffset.center,
-// child: DecoratedBox(
-// decoration: BoxDecoration(
-// borderRadius: BorderRadius.circular(50),
-// color: Colors.redAccent),
-// ),
-// );
-// }),
-// Text(
-// disp,
-// style: TextStyle(color: Color(0xFF5b0098), fontSize: 20),
-// ),
-// ],
-// ),

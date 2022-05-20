@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class BottomNavigation extends StatelessWidget {
   int currIndex = 0;
@@ -17,18 +20,32 @@ class BottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: currIndex,
-      showUnselectedLabels: false,
-      showSelectedLabels: false,
-      onTap: (value) => changePage(value, context),
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
-        BottomNavigationBarItem(icon: Icon(Icons.paid), label: "Neu-coins"),
-        BottomNavigationBarItem(icon: Icon(Icons.school), label: "Profile"),
-      ],
-      selectedItemColor: Colors.amber[800],
-      //onTap: _onItemTapped,
-    );
+    return CurvedNavigationBar(
+        index: currIndex,
+        height: 60.0,
+        items: <Widget>[
+          Image.asset(
+            'images/pedometer.png',
+            height: 30,
+            width: 30,
+          ),
+          Image.asset(
+            'images/coinstar.png',
+            height: 30,
+            width: 30,
+          ),
+          Image.asset(
+            'images/account.png',
+            height: 30,
+            width: 30,
+          ),
+        ],
+        color: Colors.white,
+        buttonBackgroundColor: Colors.white,
+        backgroundColor: Colors.black45,
+        onTap: (index) {
+          changePage(index, context);
+        },
+        letIndexChange: (index) => true);
   }
 }

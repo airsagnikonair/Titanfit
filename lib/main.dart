@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
+    StepCalorieCalculation.initialiseArray();
   }
 
   @override

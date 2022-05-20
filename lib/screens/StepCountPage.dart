@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +26,6 @@ class _StepCountPageState extends State<StepCountPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isLoading = true;
-    StepCalorieCalculation.initialiseArray();
   }
 
   @override
@@ -37,6 +37,9 @@ class _StepCountPageState extends State<StepCountPage> {
 
   @override
   Widget build(BuildContext context) {
+    double dynamicHeight = MediaQuery.of(context).size.height;
+    double dynamicWidth = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0x505b0098),
@@ -56,50 +59,38 @@ class _StepCountPageState extends State<StepCountPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.arrow_left,
-                      size: 50,
-                    ),
-                  ),
                   Container(
+                    padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       "Today",
                       style: TextStyle(fontSize: 25, color: Colors.white),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.arrow_right,
-                      size: 50,
-                    ),
-                  ),
                 ],
               ),
               Container(
+                height: dynamicHeight * 0.4,
+                width: dynamicHeight * 0.4,
                 margin: EdgeInsets.only(bottom: 15),
                 alignment: Alignment.center,
-                height: 320,
-                width: 320,
                 decoration: BoxDecoration(
                   color: Color(0xFFF9CEEE), //Color(0xFFFF4949),
-                  borderRadius: BorderRadius.circular(320),
+                  borderRadius: BorderRadius.circular(dynamicHeight * 0.4),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 30, top: 80),
+                  padding: EdgeInsets.only(bottom: 30, top: 40),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Consumer<StepCalorieCalculation>(
                         builder: (ctx, snapshot, child) {
                           String _status = snapshot.getStatus();
-                          return Icon(
+                          return Image.asset(
                             _status == "walking"
-                                ? Icons.nordic_walking
-                                : Icons.do_not_step,
-                            size: 150,
+                                ? 'images/running.png'
+                                : 'images/stop.png',
+                            height: dynamicHeight * 0.2,
+                            width: dynamicHeight * 0.2,
                           );
                         },
                       ),
@@ -114,34 +105,120 @@ class _StepCountPageState extends State<StepCountPage> {
 
                           return Text(
                             _steps,
-                            style:
-                                TextStyle(fontSize: 25, color: Colors.black87),
+                            style: TextStyle(
+                                fontSize: 28,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold),
                           );
                         },
                       ),
                       Text(
                         "Steps",
-                        style: TextStyle(fontSize: 20, color: Colors.black87),
+                        style: TextStyle(fontSize: 18, color: Colors.black87),
                       ),
                     ],
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Consumer<StepCalorieCalculation>(
-                    builder: (ctx, snapshot, child) {
-                      double calorie = snapshot.getCalorie();
-                      return WalkParameter(
-                          parameterText: "Calories", parameterValue: calorie);
-                    },
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  WalkParameter(parameterText: "Target", parameterValue: 10000)
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      children: [
+                        Text("Calorie"),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Image.asset(
+                              'images/calories.png',
+                              height: 28,
+                              width: 28,
+                            ),
+                            Consumer<StepCalorieCalculation>(
+                              builder: (ctx, snapshot, child) {
+                                double calorie = snapshot.getCalorie();
+                                return Text(calorie.toStringAsFixed(1),
+                                    style: TextStyle(
+                                        textBaseline: TextBaseline.alphabetic,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold));
+                              },
+                            ),
+                            Text(
+                              "Kcal",
+                              style: TextStyle(
+                                  textBaseline: TextBaseline.alphabetic),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text("Target"),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'images/goal.png',
+                              height: 28,
+                              width: 28,
+                            ),
+                            Text(
+                              "10 k",
+                              style: TextStyle(
+                                  fontSize: 28, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text("Distance"),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Image.asset(
+                              'images/distance.png',
+                              height: 28,
+                              width: 28,
+                              color: Colors.white,
+                            ),
+                            Consumer<StepCalorieCalculation>(
+                              builder: (ctx, snapshot, child) {
+                                double dis =
+                                    snapshot.getDistanceForCurrrntDay();
+                                return Text(
+                                  (dis / 1000.0).toStringAsFixed(1),
+                                  style: TextStyle(
+                                      textBaseline: TextBaseline.alphabetic,
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold),
+                                );
+                              },
+                            ),
+                            Text(
+                              "Km",
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               Consumer<StepCalorieCalculation>(
                 builder: (ctx, snapshot, child) {
@@ -160,3 +237,24 @@ class _StepCountPageState extends State<StepCountPage> {
     );
   }
 }
+
+// Expanded(
+// flex: 1,
+// child: Row(
+// mainAxisAlignment: MainAxisAlignment.center,
+// children: [
+// Consumer<StepCalorieCalculation>(
+// builder: (ctx, snapshot, child) {
+// double calorie = snapshot.getCalorie();
+// return WalkParameter(
+// parameterText: "Calories", parameterValue: calorie);
+// },
+// ),
+// SizedBox(
+// width: 10,
+// ),
+// WalkParameter(
+// parameterText: "Target", parameterValue: 10000)
+// ],
+// ),
+// ),

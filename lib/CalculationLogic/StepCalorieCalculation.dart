@@ -107,9 +107,23 @@ class StepCalorieCalculation extends ChangeNotifier {
         .onError(onPedestrianStatusError);
     _stepCountStream = Pedometer.stepCountStream;
     _stepCountStream.listen(onStepCount).onError(onStepCountError);
-    if (_steps != '?') {
+    if (_steps != '?' && loadingData == false) {
       pedoTrackArrayUpdate();
     }
+  }
+
+  PedometerCount getWeekDayDetails(int weekDay) {
+    if (loadingData == true) {
+      return PedometerCount(
+        distance: 0,
+        neucoin: 0,
+        calorie: 0,
+        currSteps: -1,
+        totalSteps: -1,
+        date: DateTime(1990, 1, 1),
+      );
+    }
+    return pedoTrackArray[weekDay];
   }
 
   int getStepsForRoundedBox(int i) {
@@ -129,6 +143,14 @@ class StepCalorieCalculation extends ChangeNotifier {
 
   String getStatus() {
     return _status;
+  }
+
+  double getDistanceForCurrrntDay() {
+    int weekDayIndex = getCurrentWeekDayIndex();
+    if (loadingData == true) {
+      return 0.0;
+    }
+    return pedoTrackArray[weekDayIndex].distance;
   }
 
   double getCalorie() {
@@ -179,6 +201,16 @@ class StepCalorieCalculation extends ChangeNotifier {
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
     return date.weekday;
+  }
+
+  int getNeuCoinsEarnedInAWeek() {
+    int sum = 0, i;
+    if (loadingData == false) {
+      for (i = 1; i <= 7; i++) {
+        sum = sum + (pedoTrackArray[i].distance / 1000.0).truncate();
+      }
+    }
+    return sum;
   }
 
   bool checkDataAtIndex(int weekDayIndex) {

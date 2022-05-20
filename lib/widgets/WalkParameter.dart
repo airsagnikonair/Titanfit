@@ -17,8 +17,6 @@ class WalkParameter extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         color: Color(0xFFF9F3EE),
       ),
-      height: 85,
-      width: 162,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

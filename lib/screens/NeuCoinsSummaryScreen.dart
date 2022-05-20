@@ -28,6 +28,20 @@ class NeuCoinsSummaryScreen extends StatelessWidget {
           actions: [
             Row(
               children: [
+                Text("Total"),
+                SizedBox(
+                  width: 5,
+                ),
+                Consumer<StepCalorieCalculation>(
+                    builder: (ctx, snapshot, child) {
+                  return Text(
+                    snapshot.getTotalCoins().toString(),
+                    style: TextStyle(fontSize: 20),
+                  );
+                }),
+                SizedBox(
+                  width: 5,
+                ),
                 Image.asset(
                   'images/coinstar.png',
                   height: 20,
@@ -36,18 +50,10 @@ class NeuCoinsSummaryScreen extends StatelessWidget {
                 SizedBox(
                   width: 5,
                 ),
-                Text(
-                  "40",
-                  style: TextStyle(fontSize: 20),
-                ),
                 SizedBox(
                   width: 5,
                 ),
-                Image.asset(
-                  'images/coinstar.png',
-                  height: 20,
-                  width: 20,
-                ),
+                Text("Weekly"),
                 SizedBox(
                   width: 5,
                 ),
@@ -61,6 +67,11 @@ class NeuCoinsSummaryScreen extends StatelessWidget {
                 }),
                 SizedBox(
                   width: 5,
+                ),
+                Image.asset(
+                  'images/coinstar.png',
+                  height: 20,
+                  width: 20,
                 ),
               ],
             )

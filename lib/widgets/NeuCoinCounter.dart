@@ -50,19 +50,21 @@ class NewCoinCounter extends StatelessWidget {
                       : "${(distanceLeft * 1000).round()}",
                   style: TextStyle(
                       textBaseline: TextBaseline.alphabetic,
-                      fontSize: 30,
+                      fontSize: distanceLeft < 0 ? 20 : 30,
                       color: Colors.black87,
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   width: 10,
                 ),
-                Text(
-                  "meters left",
-                  style: TextStyle(
-                      color: Colors.black,
-                      textBaseline: TextBaseline.alphabetic),
-                )
+                distanceLeft >= 0
+                    ? Text(
+                        "meters left",
+                        style: TextStyle(
+                            color: Colors.black,
+                            textBaseline: TextBaseline.alphabetic),
+                      )
+                    : Text(""),
               ],
             )
           ],

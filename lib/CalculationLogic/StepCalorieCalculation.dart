@@ -17,12 +17,15 @@ class StepCalorieCalculation extends ChangeNotifier {
   double shortDistanceTarget = -1;
   bool neuCoinFlag = false;
   static int totalCoins = 0;
-
   late int weekDayIndex;
 
-  static bool loadingData = false;
+  static bool loadingData =
+      false; //track the completion of loading the array from permanent memory
 
   static List<PedometerCount> pedoTrackArray = [];
+
+  //static function that fetches the array from permanent memory and
+  //initialises it for use in the app
   static Future<void> initialiseArray() async {
     totalCoins = 0;
     loadingData = true;
@@ -33,6 +36,7 @@ class StepCalorieCalculation extends ChangeNotifier {
       print("retrived total coins");
     }
 
+    //if array is found in permanent memory i.e if the app is already installed
     if (items != null) {
       pedoTrackArray = items.map((ele) {
         print("retrived data");
@@ -59,7 +63,10 @@ class StepCalorieCalculation extends ChangeNotifier {
         print(
             '${pedoTrackArray[i].currSteps}  ${pedoTrackArray[i].totalSteps}');
       }
-    } else {
+    }
+    //if the app is installed for the first time
+    //we initialise the pedoTrackArray
+    else {
       for (int i = 0; i < 8; i++) {
         pedoTrackArray.add(
           PedometerCount(
@@ -76,23 +83,29 @@ class StepCalorieCalculation extends ChangeNotifier {
     loadingData = false;
   }
 
+  //function invoked when steps are taken by the user
   void onStepCount(StepCount event) {
     print(event);
     print(event.timeStamp);
 
     _steps = event.steps.toString();
+
+    //fetching the number of the current day(Monday=1..Sunday=7)
     int weekDayIndex = getCurrentWeekDayIndex();
+    //function that updates the array after each step is taken
     pedoTrackArrayUpdate();
     print(pedoTrackArray[weekDayIndex].neucoin);
     notifyListeners();
   }
 
+  //function updates the status of the user between walking and standing/stopped
   void onPedestrianStatusChanged(PedestrianStatus event) {
     print(event);
     _status = event.status;
     notifyListeners();
   }
 
+  //Error handling function
   void onPedestrianStatusError(error) {
     print('onPedestrianStatusError: $error');
     _status = 'Pedestrian Status not available';
@@ -100,12 +113,14 @@ class StepCalorieCalculation extends ChangeNotifier {
     notifyListeners();
   }
 
+  //Error handling function
   void onStepCountError(error) {
     print('onStepCountError: $error');
     _steps = 'Step Count not available';
     notifyListeners();
   }
 
+  //initialises the sensor for reading data from it continuously
   void initPlatformState() {
     _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
     _pedestrianStatusStream
@@ -118,6 +133,7 @@ class StepCalorieCalculation extends ChangeNotifier {
     }
   }
 
+  //return the data for the NeuCoinSummaryPage(History section)
   PedometerCount getWeekDayDetails(int weekDay) {
     if (loadingData == true) {
       return PedometerCount(
@@ -132,6 +148,7 @@ class StepCalorieCalculation extends ChangeNotifier {
     return pedoTrackArray[weekDay];
   }
 
+  //returns steps for showing the streak in the rounded widgets
   int getStepsForRoundedBox(int i) {
     if (loadingData == true) {
       return 0;
@@ -139,6 +156,7 @@ class StepCalorieCalculation extends ChangeNotifier {
     return pedoTrackArray[i].currSteps.round();
   }
 
+  //returns the current steps from the pedoTrackArray
   String getSteps() {
     int weekDayIndex = getCurrentWeekDayIndex();
     if (loadingData == true) {
@@ -147,14 +165,17 @@ class StepCalorieCalculation extends ChangeNotifier {
     return pedoTrackArray[weekDayIndex].currSteps.round().toString();
   }
 
+  //returns the user status
   String getStatus() {
     return _status;
   }
 
+  //returns the total coins earned by user
   int getTotalCoins() {
     return totalCoins;
   }
 
+  //returns the distance walked from the pedoTrackArray
   double getDistanceForCurrrntDay() {
     int weekDayIndex = getCurrentWeekDayIndex();
     if (loadingData == true) {
@@ -163,6 +184,7 @@ class StepCalorieCalculation extends ChangeNotifier {
     return pedoTrackArray[weekDayIndex].distance;
   }
 
+  //returns the calorie count from the pedoTrackArray
   double getCalorie() {
     int weekDayIndex = getCurrentWeekDayIndex();
     if (loadingData == true) {
@@ -171,6 +193,7 @@ class StepCalorieCalculation extends ChangeNotifier {
     return pedoTrackArray[weekDayIndex].calorie;
   }
 
+  //returns the distance walked by the user on a specific day
   double getDistance(int i) {
     if (loadingData == true) {
       return 0.0;
@@ -178,6 +201,7 @@ class StepCalorieCalculation extends ChangeNotifier {
     return pedoTrackArray[i].distance;
   }
 
+  //returns distance left to cover target distance to get 1 NeuCoin
   double getDistanceForNeuCoin() {
     if (loadingData == true) {
       return -1.0;
@@ -185,16 +209,10 @@ class StepCalorieCalculation extends ChangeNotifier {
     return double.parse(distanceLeft.toStringAsFixed(3));
   }
 
-  double getNeuCoin() {
-    int weekDayIndex = getCurrentWeekDayIndex();
-    if (loadingData == true) {
-      return 0.0;
-    }
-    return pedoTrackArray[weekDayIndex].neucoin;
-  }
-
+  //logic for calculation of distance left to earn 1 neu coin
   void updateDistanceLeftForNeuCoin(double distance) {
     print("Update neucoin function");
+
     int weekDayIndex = getCurrentWeekDayIndex();
     distanceCovered = (distance) / 1000;
     if (distanceCovered >= shortDistanceTarget && shortDistanceTarget != -1) {
@@ -207,12 +225,14 @@ class StepCalorieCalculation extends ChangeNotifier {
     distanceLeft = temp - distanceCovered;
   }
 
+  //returns the day of the week in number(Monday=1..Sunday=7)
   int getCurrentWeekDayIndex() {
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
     return date.weekday;
   }
 
+  //adds up the total neu coins earned in the last 7 days
   int getNeuCoinsEarnedInAWeek() {
     int sum = 0, i;
     if (loadingData == false) {
@@ -223,6 +243,8 @@ class StepCalorieCalculation extends ChangeNotifier {
     return sum;
   }
 
+  //checks where the last update of the array is present
+  //accordingly the steps and other parameters are calculated
   bool checkDataAtIndex(int weekDayIndex) {
     if (pedoTrackArray[weekDayIndex].totalSteps == -1) {
       return false;
@@ -231,6 +253,7 @@ class StepCalorieCalculation extends ChangeNotifier {
     }
   }
 
+  //logic for updating the array and tracking the steps, calorie, distance, coins
   void pedoTrackArrayUpdate() {
     //getting week day index
     int weekDayIndex = getCurrentWeekDayIndex();
@@ -397,6 +420,7 @@ class StepCalorieCalculation extends ChangeNotifier {
     }
   }
 
+  //saves the pedoTrackArray and totalCoins in permanent memory
   static Future<void> save() async {
     var encodedArray = pedoTrackArray
         .map(

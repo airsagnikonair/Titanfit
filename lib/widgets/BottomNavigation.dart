@@ -10,7 +10,7 @@ class BottomNavigation extends StatelessWidget {
   void changePage(int i, BuildContext ctx) {
     if (i == 0) {
       currIndex = i;
-      Navigator.of(ctx).pushReplacementNamed('/');
+      Navigator.of(ctx).pushReplacementNamed('/stepCount');
     }
     if (i == 1) {
       currIndex = i;
@@ -42,7 +42,7 @@ class BottomNavigation extends StatelessWidget {
         ],
         color: Colors.white,
         buttonBackgroundColor: Colors.white,
-        backgroundColor: Colors.black45,
+        backgroundColor: currIndex == 0 ? Colors.purple : Colors.transparent,
         onTap: (index) {
           changePage(index, context);
         },

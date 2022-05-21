@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:titanfit/screens/SplashScreen.dart';
 import './CalculationLogic/StepCalorieCalculation.dart';
 import 'package:titanfit/screens/StepCountPage.dart';
 import 'package:titanfit/screens/NeuCoinsSummaryScreen.dart';
@@ -22,24 +23,25 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    //initialise the function for tracking app life cycle
     WidgetsBinding.instance?.addObserver(this);
+
+    //initialises the array that stores the pedometer sensor data
     StepCalorieCalculation.initialiseArray();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    // TODO: implement didChangeAppLifecycleState
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
+      //saves the state of the array in permanent memory
       await StepCalorieCalculation.save();
     }
   }
@@ -58,23 +60,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: Color(0x505b0098),
           textTheme: TextTheme(
-            bodyText2: TextStyle(color: Colors.white),
+            bodyText2: TextStyle(color: Colors.white, fontFamily: "Montserrat"),
           ),
         ),
-        home: StepCountPage(),
+        home: SplashScreen(),
         routes: {
           '/coinSummary': (context) => NeuCoinsSummaryScreen(),
+          '/stepCount': (context) => StepCountPage(),
         },
       ),
     );
   }
 }
-
-// MultiProvider(
-// providers: [
-// ListenableProvider(
-// create: (ctx) => StepCalorieCalculation(),
-// ),
-// ],
-// child: StepCountPage(),
-// ),

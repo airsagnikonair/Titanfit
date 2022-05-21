@@ -67,6 +67,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                               formattedDate,
                               style: TextStyle(
                                 fontSize: 20,
+                                fontWeight: FontWeight.w700,
                                 color: Color(0xFF15133C),
                               ),
                             ),
@@ -97,6 +98,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                                         'Steps',
                                         style: TextStyle(
                                           fontSize: 20,
+                                          fontWeight: FontWeight.w600,
                                           color: Color(0xFF15133C),
                                         ),
                                       ),
@@ -110,6 +112,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                                             .toString(),
                                     style: TextStyle(
                                       fontSize: 20,
+                                      fontWeight: FontWeight.w600,
                                       color: Color(0xFF15133C),
                                     ),
                                   ),
@@ -135,6 +138,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                                         'Distance',
                                         style: TextStyle(
                                           fontSize: 20,
+                                          fontWeight: FontWeight.w600,
                                           color: Color(0xFF15133C),
                                         ),
                                       ),
@@ -146,6 +150,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                                         " km",
                                     style: TextStyle(
                                       fontSize: 20,
+                                      fontWeight: FontWeight.w600,
                                       color: Color(0xFF15133C),
                                     ),
                                   ),
@@ -171,6 +176,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                                         'Calories',
                                         style: TextStyle(
                                           fontSize: 20,
+                                          fontWeight: FontWeight.w600,
                                           color: Color(0xFF15133C),
                                         ),
                                       ),
@@ -181,6 +187,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                                         " kcal",
                                     style: TextStyle(
                                       fontSize: 20,
+                                      fontWeight: FontWeight.w600,
                                       color: Color(0xFF15133C),
                                     ),
                                   ),
@@ -206,6 +213,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                                         'Coins',
                                         style: TextStyle(
                                           fontSize: 20,
+                                          fontWeight: FontWeight.w600,
                                           color: Color(0xFF15133C),
                                         ),
                                       ),
@@ -217,6 +225,7 @@ class WeeklyEarnedCoins extends StatelessWidget {
                                         .toString(),
                                     style: TextStyle(
                                       fontSize: 20,
+                                      fontWeight: FontWeight.w600,
                                       color: Color(0xFF15133C),
                                     ),
                                   ),

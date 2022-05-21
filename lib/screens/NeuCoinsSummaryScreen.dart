@@ -2,7 +2,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:titanfit/widgets/NueCoinTotalTodayCount.dart';
 import 'package:provider/provider.dart';
 import '../CalculationLogic/StepCalorieCalculation.dart';
 import '../widgets/BottomNavigation.dart';
@@ -13,6 +12,7 @@ class NeuCoinsSummaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //getting the current weekday value (monday=1...sunday=7)
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
     int weekDay = date.weekday;
@@ -46,9 +46,6 @@ class NeuCoinsSummaryScreen extends StatelessWidget {
                   'images/coinstar.png',
                   height: 20,
                   width: 20,
-                ),
-                SizedBox(
-                  width: 5,
                 ),
                 SizedBox(
                   width: 5,
@@ -89,6 +86,7 @@ class NeuCoinsSummaryScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        //logic for rotating the index of pedoTrackArray
                         WeeklyEarnedCoins(weekDay: weekDay),
                         WeeklyEarnedCoins(
                             weekDay: weekDay - 1 <= 0

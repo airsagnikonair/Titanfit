@@ -1,3 +1,6 @@
+//class used to store the data for the history section
+//in NeuCoinSummaryScreen
+
 class PedometerCount {
   double currSteps, totalSteps;
   DateTime date;

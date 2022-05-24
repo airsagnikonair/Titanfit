@@ -285,15 +285,16 @@ class StepCalorieCalculation extends ChangeNotifier {
           pedoTrackArray[weekDayIndex].calorie =
               pedoTrackArray[weekDayIndex].currSteps * 0.04;
 
+          int coinPrev =
+              (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
+
           pedoTrackArray[weekDayIndex].distance =
               pedoTrackArray[weekDayIndex].currSteps * 0.7112;
 
-          int coins =
+          int coinsCurrent =
               (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
-          if (coins > totalCoins) {
-            totalCoins = totalCoins + (coins - totalCoins);
-            print("total coins $totalCoins");
-          }
+
+          totalCoins = totalCoins + (coinsCurrent - coinPrev);
 
           updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
         } else {
@@ -305,16 +306,18 @@ class StepCalorieCalculation extends ChangeNotifier {
 
           pedoTrackArray[weekDayIndex].calorie =
               pedoTrackArray[weekDayIndex].currSteps * 0.04;
+
+          int coinPrev =
+              (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
+
           pedoTrackArray[weekDayIndex].distance =
               pedoTrackArray[weekDayIndex].currSteps *
                   0.7112; //distance in meters
 
-          int coins =
+          int coinsCurrent =
               (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
-          print('$coins  $totalCoins');
-          if (coins > totalCoins) {
-            totalCoins = totalCoins + (coins - totalCoins);
-          }
+
+          totalCoins = totalCoins + (coinsCurrent - coinPrev);
 
           updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
 
@@ -332,14 +335,17 @@ class StepCalorieCalculation extends ChangeNotifier {
           pedoTrackArray[weekDayIndex].date = DateTime.now();
           pedoTrackArray[weekDayIndex].calorie =
               pedoTrackArray[weekDayIndex].currSteps * 0.04;
+
+          int coinPrev =
+              (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
+
           pedoTrackArray[weekDayIndex].distance =
               pedoTrackArray[weekDayIndex].currSteps * 0.7112;
 
-          int coins =
+          int coinsCurrent =
               (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
-          if (coins > totalCoins) {
-            totalCoins = totalCoins + (coins - totalCoins);
-          }
+
+          totalCoins = totalCoins + (coinsCurrent - coinPrev);
 
           updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
 
@@ -354,14 +360,17 @@ class StepCalorieCalculation extends ChangeNotifier {
           pedoTrackArray[weekDayIndex].date = DateTime.now();
           pedoTrackArray[weekDayIndex].calorie =
               pedoTrackArray[weekDayIndex].currSteps * 0.04;
+
+          int coinPrev =
+              (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
+
           pedoTrackArray[weekDayIndex].distance =
               pedoTrackArray[weekDayIndex].currSteps * 0.7112;
 
-          int coins =
+          int coinsCurrent =
               (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
-          if (coins > totalCoins) {
-            totalCoins = totalCoins + (coins - totalCoins);
-          }
+
+          totalCoins = totalCoins + (coinsCurrent - coinPrev);
 
           updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
 
@@ -380,13 +389,17 @@ class StepCalorieCalculation extends ChangeNotifier {
         pedoTrackArray[weekDayIndex].date = DateTime.now();
         pedoTrackArray[weekDayIndex].calorie =
             pedoTrackArray[weekDayIndex].currSteps * 0.04;
+
+        int coinPrev =
+            (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
+
         pedoTrackArray[weekDayIndex].distance =
             pedoTrackArray[weekDayIndex].currSteps * 0.7112;
 
-        int coins = (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
-        if (coins > totalCoins) {
-          totalCoins = totalCoins + (coins - totalCoins);
-        }
+        int coinsCurrent =
+            (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
+
+        totalCoins = totalCoins + (coinsCurrent - coinPrev);
 
         updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
 
@@ -403,13 +416,17 @@ class StepCalorieCalculation extends ChangeNotifier {
         pedoTrackArray[weekDayIndex].date = DateTime.now();
         pedoTrackArray[weekDayIndex].calorie =
             pedoTrackArray[weekDayIndex].currSteps * 0.04;
+
+        int coinPrev =
+            (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
+
         pedoTrackArray[weekDayIndex].distance =
             pedoTrackArray[weekDayIndex].currSteps * 0.7112;
 
-        int coins = (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
-        if (coins > totalCoins) {
-          totalCoins = totalCoins + (coins - totalCoins);
-        }
+        int coinsCurrent =
+            (pedoTrackArray[weekDayIndex].distance / 1000.0).truncate();
+
+        totalCoins = totalCoins + (coinsCurrent - coinPrev);
 
         updateDistanceLeftForNeuCoin(pedoTrackArray[weekDayIndex].distance);
 
@@ -443,3 +460,5 @@ class StepCalorieCalculation extends ChangeNotifier {
     print("saved");
   }
 }
+
+//1039987048454-vf5hni9c4quliijgra8nsgujmloh0rr8.apps.googleusercontent.com

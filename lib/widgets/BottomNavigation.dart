@@ -16,6 +16,10 @@ class BottomNavigation extends StatelessWidget {
       currIndex = i;
       Navigator.of(ctx).pushReplacementNamed('/coinSummary');
     }
+    if (i == 2) {
+      currIndex = i;
+      Navigator.of(ctx).pushReplacementNamed('/fitData');
+    }
   }
 
   @override

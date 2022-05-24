@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:titanfit/screens/FitDisplayPage.dart';
 import 'package:titanfit/screens/SplashScreen.dart';
 import './CalculationLogic/StepCalorieCalculation.dart';
 import 'package:titanfit/screens/StepCountPage.dart';
@@ -67,6 +68,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         routes: {
           '/coinSummary': (context) => NeuCoinsSummaryScreen(),
           '/stepCount': (context) => StepCountPage(),
+          '/fitData': (context) => HealthApp(),
         },
       ),
     );

@@ -35,17 +35,16 @@ class _StepCountPageState extends State<StepCountPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0x505b0098),
         body: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Colors.purple, Color(0x505b0098)],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              stops: [0.1, 0.8],
-              tileMode: TileMode.repeated,
-            ),
-          ),
+          // decoration: BoxDecoration(
+          //   gradient: const LinearGradient(
+          //     colors: [Colors.purple, Color(0x505b0098)],
+          //     begin: Alignment.bottomLeft,
+          //     end: Alignment.topRight,
+          //     stops: [0.1, 0.8],
+          //     tileMode: TileMode.repeated,
+          //   ),
+          // ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

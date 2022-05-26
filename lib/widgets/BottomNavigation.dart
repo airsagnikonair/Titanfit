@@ -46,7 +46,7 @@ class BottomNavigation extends StatelessWidget {
         ],
         color: Colors.white,
         buttonBackgroundColor: Colors.white,
-        backgroundColor: currIndex == 0 ? Colors.purple : Colors.transparent,
+        backgroundColor: Colors.transparent,
         onTap: (index) {
           changePage(index, context);
         },

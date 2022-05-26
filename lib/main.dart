@@ -10,6 +10,8 @@ import 'package:titanfit/screens/StepCountPage.dart';
 import 'package:titanfit/screens/NeuCoinsSummaryScreen.dart';
 import 'package:provider/provider.dart';
 
+import 'CalculationLogic/GoogleFitDataFetch.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -53,7 +55,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       providers: [
         ListenableProvider(
           create: (ctx) => StepCalorieCalculation(),
-        )
+        ),
+        ListenableProvider(
+          create: (ctx) => GoogleFitDataFetch(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

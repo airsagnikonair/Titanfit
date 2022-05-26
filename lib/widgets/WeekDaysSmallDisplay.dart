@@ -41,7 +41,7 @@ class WeekDaysSmallDisplay extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(50),
           border: DateTime.now().weekday == weekDay
-              ? Border.all(color: Colors.black87, width: 2.5)
+              ? Border.all(color: Colors.greenAccent, width: 2.5)
               : null,
         ),
         child: Text(
